@@ -121,25 +121,35 @@ class Conta():
     def __init__(self, clientes: List[Cliente],
                  numero_conta: int,
                  saldo_inicial: Number):
-        pass
+        
+        self.__clientes = clientes
+        self.__numeroConta = numero_conta
+        self.__saldoInicial = saldo_inicial
+        self.__saldo = saldo_inicial
+        self.__extrato = []
+        
+        if self.__saldoInicial < 0:
+            raise ValueError("É necessário ter saldo inicial")
+
+        self.__extrato.append(("Saldo Inicial: ",self.__saldoInicial))
 
     def get_clientes(self) -> List[Cliente]:
         '''
         Acessor para o atributo clientes
         '''
-        pass
+        return self.__clientes
 
     def get_saldo(self) -> Number:
         '''
         Acessor para o atributo saldo
         '''
-        pass
+        return self.__saldo
 
     def get_numero(self) -> int:
         '''
         Acessor para o atributo numero
         '''
-        pass
+        return self.__numeroConta
 
     def saque(self, valor: Number) -> None:
         '''
@@ -148,16 +158,22 @@ class Conta():
         Caso o valor do saque seja maior que o saldo da conta,
         deve retornar um ValueError, e não efetuar o saque
         '''
-        pass
-
+        
+        if valor > self.__saldo:
+            raise ValueError("Saque maior que o disponivel para essa operação")
+        else:
+            self.__saldo -= valor
+            self.__extrato.append(("Saque: ",valor))
+        
     def deposito(self, valor: Number):
         '''
         Método depósito da classe Conta, operação deve aparecer no extrato
         '''
-        pass
+        self.__saldo += valor
+        self.__extrato.append(("Deposito: ",valor))
 
     def extrato(self) -> List[Dict[str, Number]]:
         '''
         Retorna uma lista com as operações (Tuplas) executadas na Conta
         '''
-        pass
+        return self.__extrato
