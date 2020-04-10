@@ -1,7 +1,7 @@
 # Linguagem de Programação II
 # AC03 ADS-EaD - Banco
 #
-# Email: nome.sobrenome@aluno.faculdadeimpacta.com.br
+# Email: david.silva@aluno.faculdadeimpacta.com.br
 
 from typing import Union, List, Dict
 
