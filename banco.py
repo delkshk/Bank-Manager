@@ -21,9 +21,9 @@ class Cliente():
     """
 
     def __init__(self, nome: str, telefone: int, email: str):
-        self.nome = nome
-        self.telefone = telefone
-        self.email = email
+        self.__nome = nome
+        self.__telefone = telefone
+        self.__email = email
         # caso o email não seja válido (verificar se contém o @) gera um ValueError
         if "@" in self.__email:
             pass
@@ -82,11 +82,12 @@ class Banco():
     contas do banco
     """
     def __init__(self, nome: str):
-        pass
+        self.__nome = nome
+        self.__contas = []
 
     def get_nome(self) -> str:
         """Acessor do Atributo Nome."""
-        pass
+        return self.__nome
 
     def abre_conta(self, clientes: List[Cliente], saldo_ini: Number) -> None:
         """
@@ -102,7 +103,7 @@ class Banco():
 
     def lista_contas(self) -> List['Conta']:
         """Retorna a lista com todas as contas do banco."""
-        pass
+        return self.__contas
 
 
 class Conta():
@@ -124,14 +125,13 @@ class Conta():
         
         self.__clientes = clientes
         self.__numeroConta = numero_conta
-        self.__saldoInicial = saldo_inicial
-        self.__saldo = saldo_inicial
+        self.__saldo_inicial = saldo_inicial
         self.__extrato = []
         
-        if self.__saldoInicial < 0:
+        if self.__saldo_inicial < 0:
             raise ValueError("É necessário ter saldo inicial")
 
-        self.__extrato.append(("Saldo Inicial: ",self.__saldoInicial))
+        self.__extrato.append(("saldo_inicial",self.__saldo_inicial))
 
     def get_clientes(self) -> List[Cliente]:
         '''
@@ -143,7 +143,7 @@ class Conta():
         '''
         Acessor para o atributo saldo
         '''
-        return self.__saldo
+        return self.__saldo_inicial
 
     def get_numero(self) -> int:
         '''
@@ -159,18 +159,18 @@ class Conta():
         deve retornar um ValueError, e não efetuar o saque
         '''
         
-        if valor > self.__saldo:
+        if valor > self.__saldo_inicial:
             raise ValueError("Saque maior que o disponivel para essa operação")
         else:
-            self.__saldo -= valor
-            self.__extrato.append(("Saque: ",valor))
+            self.__saldo_inicial -= valor
+            self.__extrato.append(("saque",valor))
         
     def deposito(self, valor: Number):
         '''
         Método depósito da classe Conta, operação deve aparecer no extrato
         '''
-        self.__saldo += valor
-        self.__extrato.append(("Deposito: ",valor))
+        self.__saldo_inicial += valor
+        self.__extrato.append(("deposito",valor))
 
     def extrato(self) -> List[Dict[str, Number]]:
         '''
